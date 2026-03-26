@@ -735,10 +735,7 @@ pub fn register_models(_py: Python<'_>, m: &Bound<PyModule>) -> PyResult<()> {
     m.add_class::<PyQueryResultDocumentInfo>()?;
     m.add_class::<PySearchResult>()?;
     m.add_class::<PyQueryOptions>()?;
-    m.add_class::<PyAddDocumentsOptions>()?;
     m.add_class::<PyGetDocumentsOptions>()?;
-    m.add_class::<PySerializedIndex>()?;
-    m.add_class::<PyRefreshResult>()?;
 
     // Optional convenience: expose a dict of enum constants
     let status = PyDict::new(m.py());

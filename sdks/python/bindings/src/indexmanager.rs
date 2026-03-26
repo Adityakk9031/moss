@@ -3,7 +3,7 @@ use pyo3::prelude::*;
 
 use moss::manager::{IndexManager, LoadIndexOptions};
 
-use crate::models::{parse_metadata_filter, PyIndexInfo, PyRefreshResult, PySearchResult};
+use crate::models::{parse_metadata_filter, PyIndexInfo, PySearchResult};
 
 // ---------- PyIndexManager ----------
 
@@ -132,18 +132,4 @@ impl PyIndexManager {
             .map_err(|e| PyRuntimeError::new_err(format!("{}", e)))
     }
 
-    /// Forces an immediate refresh of an index from the cloud.
-    pub fn refresh_index(&self, index_name: String) -> PyResult<PyRefreshResult> {
-        self.runtime
-            .block_on(self.inner.refresh_index(&index_name))
-            .map(|result| result.into())
-            .map_err(|e| PyRuntimeError::new_err(format!("{}", e)))
-    }
-
-    pub fn get_index_info(&self, index_name: String) -> PyResult<PyIndexInfo> {
-        self.runtime
-            .block_on(self.inner.get_index_info(&index_name))
-            .map(|info| info.into())
-            .map_err(|e| PyRuntimeError::new_err(format!("{}", e)))
-    }
 }

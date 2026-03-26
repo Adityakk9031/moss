@@ -1,6 +1,6 @@
 # Moss client library for Python
 
-`inferedge-moss` enables **private, on-device semantic search** in your Python applications with cloud storage capabilities.
+`moss` enables **private, on-device semantic search** in your Python applications with cloud storage capabilities.
 
 Built for developers who want **instant, memory-efficient, privacy-first AI features** with seamless cloud integration.
 
@@ -17,14 +17,14 @@ Built for developers who want **instant, memory-efficient, privacy-first AI feat
 ## 📦 Installation
 
 ```bash
-pip install inferedge-moss
+pip install moss
 ```
 
 ## 🚀 Quick Start
 
 ```python
 import asyncio
-from inferedge_moss import MossClient, DocumentInfo, QueryOptions
+from moss import MossClient, DocumentInfo, QueryOptions
 
 async def main():
     # Initialize search client with project credentials
@@ -87,27 +87,28 @@ asyncio.run(main())
 
 - `moss-minilm`: Lightweight model optimized for speed and efficiency
 - `moss-mediumlm`: Balanced model offering higher accuracy with reasonable performance
+- `custom`: Bring your own embeddings (BYOE) — supply pre-computed vectors via `DocumentInfo(embedding=...)`
 
 ## 🔧 Getting Started
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- Valid Moss project credentials
+- Python 3.10 or higher
+- Valid InferEdge project credentials
 
 ### Environment Setup
 
 1. **Install the package:**
 
 ```bash
-pip install inferedge-moss
+pip install moss
 ```
 
 2. **Get your credentials:**
 
-Sign up at [Moss Platform](https://portal.usemoss.dev) to get your `project_id` and `project_key`.
+Sign up at [moss.dev](https://moss.dev) to get your `project_id` and `project_key`.
 
-1. **Set up environment variables (optional):**
+3. **Set up environment variables (optional):**
 
 ```bash
 export MOSS_PROJECT_ID="your-project-id"
@@ -118,7 +119,7 @@ export MOSS_PROJECT_KEY="your-project-key"
 
 ```python
 import asyncio
-from inferedge_moss import MossClient, DocumentInfo, QueryOptions
+from moss import MossClient, DocumentInfo, QueryOptions
 
 async def main():
     # Initialize client
@@ -170,17 +171,20 @@ You can pass a metadata filter directly to `query()` after loading an index loca
 results = await client.query(
     "my-docs",
     "running shoes",
-    QueryOptions(top_k=5, alpha=0.6),
-    filter={
-        "$and": [
-            {"field": "category", "condition": {"$eq": "shoes"}},
-            {"field": "price", "condition": {"$lt": "100"}},
-        ]
-    },
+    QueryOptions(
+        top_k=5,
+        alpha=0.6,
+        filter={
+            "$and": [
+                {"field": "category", "condition": {"$eq": "shoes"}},
+                {"field": "price", "condition": {"$lt": "100"}},
+            ]
+        },
+    ),
 )
 ```
 
-For a complete runnable example, see `python/user-facing-sdk/samples/metadata_filtering.py`.
+For a complete runnable example, see [`examples/python/metadata_filtering.py`](../../examples/python/metadata_filtering.py).
 
 ## 🧠 Providing custom embeddings
 
@@ -190,7 +194,7 @@ indexes and queries:
 ```python
 import asyncio
 
-from inferedge_moss import DocumentInfo, MossClient, QueryOptions
+from moss import DocumentInfo, MossClient, QueryOptions
 
 
 def my_embedding_model(text: str) -> list[float]:
@@ -234,4 +238,5 @@ Pass `QueryOptions` to reuse your own embeddings or to override `top_k` on a per
 
 ## 📄 License
 
-[BSD 2-Clause License](https://github.com/usemoss/moss/blob/main/sdks/python/sdk/LICENSE)
+[BSD 2-Clause License](./LICENSE)
+

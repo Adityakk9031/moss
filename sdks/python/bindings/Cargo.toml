@@ -1,10 +1,10 @@
 [package]
 name = "moss-core-py"
-version = "0.8.4"
+version = "0.8.7"
 edition = "2024"
 license = "BSD-2-Clause"
 publish = false
-description = "Core index logic for Moss (Python extension module)"
+description = "PyO3 bindings for the Moss semantic search engine (Python extension module)"
 repository = "https://github.com/usemoss/moss"
 
 [lib]
@@ -13,6 +13,9 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.26.0", features = ["extension-module"] }
-moss = { path = "../.." }
 serde = { version = "1.0.226", features = ["derive"] }
 tokio = { version = "1", features = ["rt-multi-thread", "time", "sync", "macros"] }
+
+# The `moss` crate is not included in this repository.
+# Pre-built wheels are available on PyPI: pip install inferedge-moss-core
+moss = { path = "PRIVATE_CRATE_NOT_INCLUDED" }

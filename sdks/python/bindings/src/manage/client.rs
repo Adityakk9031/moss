@@ -6,7 +6,7 @@ use moss::manage::client::ManageClient;
 use moss::manage::types::MutationOptions;
 use moss::models::GetDocumentsOptions;
 
-use super::types::{PyCredentialsInfo, PyJobStatusResponse, PyMutationOptions, PyMutationResult};
+use super::types::{PyJobStatusResponse, PyMutationOptions, PyMutationResult};
 use crate::models::{PyDocumentInfo, PyGetDocumentsOptions, PyIndexInfo};
 
 fn to_py_err(e: CloudError) -> PyErr {
@@ -116,5 +116,4 @@ impl PyManageClient {
             .map(|v| v.into_iter().map(PyDocumentInfo::from).collect())
             .map_err(to_py_err)
     }
-
 }

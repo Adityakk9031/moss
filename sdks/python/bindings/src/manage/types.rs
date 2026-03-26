@@ -1,7 +1,6 @@
 use pyo3::prelude::*;
 
 use moss::manage::types as core;
-use moss::manage::types::ValidateCredentialsResponse;
 
 #[pyclass(name = "JobStatus")]
 #[derive(Clone, Debug)]
@@ -181,24 +180,6 @@ impl From<core::JobStatusResponse> for PyJobStatusResponse {
     }
 }
 
-#[pyclass(name = "CredentialsInfo")]
-#[derive(Clone, Debug)]
-pub struct PyCredentialsInfo {
-    #[pyo3(get)]
-    pub project_name: String,
-    #[pyo3(get)]
-    pub project_id: String,
-}
-
-impl From<ValidateCredentialsResponse> for PyCredentialsInfo {
-    fn from(r: ValidateCredentialsResponse) -> Self {
-        Self {
-            project_name: r.project_name,
-            project_id: r.project_id,
-        }
-    }
-}
-
 pub fn register_manage_types(_py: Python<'_>, m: &Bound<PyModule>) -> PyResult<()> {
     m.add_class::<PyJobStatus>()?;
     m.add_class::<PyJobPhase>()?;
@@ -206,6 +187,5 @@ pub fn register_manage_types(_py: Python<'_>, m: &Bound<PyModule>) -> PyResult<(
     m.add_class::<PyMutationResult>()?;
     m.add_class::<PyMutationOptions>()?;
     m.add_class::<PyJobStatusResponse>()?;
-    m.add_class::<PyCredentialsInfo>()?;
     Ok(())
 }
