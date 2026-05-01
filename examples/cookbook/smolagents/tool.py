@@ -22,6 +22,8 @@ class MossRetrievalTool(Tool):
         "top_k": {
             "type": "integer",
             "description": "Number of results to return (default: 5).",
+            "nullable": True,
+            "default": 5,
         },
         "metadata_filter": {
             "type": "object",

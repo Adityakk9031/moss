@@ -39,7 +39,7 @@ class TestMossRetrievalTool(unittest.TestCase):
     @patch.object(MossRetrievalTool, "_run_async")
     def test_forward_passes_metadata_filter(self, mock_run_async):
         mock_run_async.return_value = MagicMock(docs=[])
-        filt = {"$eq": [{"field": "category", "condition": {"$eq": "refunds"}}]}
+        filt = {"$and": [{"field": "category", "condition": {"$eq": "refunds"}}]}
         self.tool.forward("query", top_k=3, metadata_filter=filt)
 
         _, call_kwargs = mock_run_async.call_args
