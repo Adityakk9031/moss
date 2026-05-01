@@ -45,17 +45,29 @@ async def main():
         tools=[retrieval_tool],
     )
 
+    from google.adk.runners import InMemoryRunner
+    from google.genai import types
+
+    runner = InMemoryRunner(agent=agent)
+
     question = "What is the policy for processing refunds for digital goods?"
     print(f"Question: {question}")
     print("-" * 50)
 
-    # Run the agent asynchronously
-    response = await agent.run_async(question)
+    # Format the input message
+    content = types.Content(role="user", parts=[types.Part(text=question)])
 
     print("\n--- Agent Response ---")
-    # The response object structure depends on the exact ADK version, 
-    # typically it has a .content or string representation.
-    print(response)
+    
+    # Run the agent asynchronously via the runner
+    async for event in runner.run_async(
+        user_id="user_demo",
+        session_id="session_demo",
+        new_message=content
+    ):
+        if hasattr(event, "is_final_response") and event.is_final_response():
+            print(event.content.parts[0].text)
+
 
 
 if __name__ == "__main__":
